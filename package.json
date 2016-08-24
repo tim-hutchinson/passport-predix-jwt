@@ -1,0 +1,33 @@
+{
+  "name": "passport-predix-jwt",
+  "version": "1.0.0",
+  "description": "Passport strategy for validating JWTs issued from Predix UAA instances.",
+  "keywords": [
+    "passport",
+    "auth",
+    "authn",
+    "authentication",
+    "authz",
+    "authorization",
+    "jwt",
+    "predix"
+  ],
+  "author": {
+    "name": "Tim Hutchinson (212330749)",
+    "email": "tim.hutchinson@ge.com"
+  },
+  "main": "./lib",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.build.ge.com/212330749/passport-predix-jwt.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cfenv": "^1.0.3",
+    "passport-strategy": "^1.0.0",
+    "predix-fast-token": "^1.0.0"
+  }
+}
