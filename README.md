@@ -2,9 +2,12 @@
 [Passport](http://passportjs.org) strategy for validating JWTs issued from Predix UAA instances.
 
 This strategy validates a JWT passed as a bearer token in the Authorization header against a specified UAA instance 
-and is targetted at protecting API endpoints served Node.JS applications.
+and is targeted at protecting API endpoints served by Node.JS applications.
 There is currently one strategy completed, RemoteValidationStrategy, with a LocalValidationStrategy on the roadmap.
 
+The RemoteValidationStrategy authenticates by checking the token against the app's cache or UAA's `check_token` endpoint.
+Remote validation adds additional requests against your auth server, but lets you validate if the token has been revoked.
+For more information [see the Predix UAA docs](https://www.predix.io/docs/#ZpStyvy5).
 
 ## Installation
 ```bash
@@ -12,10 +15,12 @@ npm install --save git+https://github.build.ge.com/212330749/passport-predix-jwt
 ```
 
 ## Usage
+
+### RemoteValidationStrategy
  
 #### Configure strategy
-The RemoteValidationStrategy authenticates by checking the token against the app's cache or UAA's `check_token` endpoint.
-Remote validation adds additional requests against your auth server, but lets you validate if the token has been revoked.  
+
+
 The strategy expects 1 of 2 options to be set:
 
 - `uaaServiceName` - The name of the UAA service bound to your app in CloudFoundry. By using service discovery, you can easily change UAA instances without changing your application (recommended).
