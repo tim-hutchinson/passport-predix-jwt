@@ -11,7 +11,7 @@ For more information [see the Predix UAA docs](https://www.predix.io/docs/#ZpSty
 
 ## Installation
 ```bash
-npm install --save git+https://github.build.ge.com/212330749/passport-predix-jwt.git
+npm install --save https://github.com/tim-hutchinson/passport-predix-jwt.git
 ```
 
 ## Usage
