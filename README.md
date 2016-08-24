@@ -1,5 +1,5 @@
 # passport-predix-jwt
-Passport strategy for validating JWTs issued from Predix UAA instances.
+[Passport](http://passportjs.org) strategy for validating JWTs issued from Predix UAA instances.
 
 This strategy validates a JWT passed as a bearer token in the Authorization header against a specified UAA instance 
 and is targetted at protecting API endpoints served Node.JS applications.
