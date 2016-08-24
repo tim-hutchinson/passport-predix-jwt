@@ -7,6 +7,9 @@ There is currently one strategy completed, RemoteValidationStrategy, with a Loca
 
 
 ## Installation
+```bash
+npm install --save git+https://github.build.ge.com/212330749/passport-predix-jwt.git
+```
 
 ## Usage
  
