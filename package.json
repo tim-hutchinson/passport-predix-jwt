@@ -1,6 +1,6 @@
 {
   "name": "passport-predix-jwt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Passport strategy for validating JWTs issued from Predix UAA instances.",
   "keywords": [
     "passport",
