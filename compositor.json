@@ -1,0 +1,97 @@
+{
+  "name": "tim-hutchinson/passport-predix-jwt",
+  "version": "0.1.4",
+  "libraries": {
+    "xv": "^1.1.25"
+  },
+  "title": "",
+  "branch": "",
+  "style": {
+    "name": "Future",
+    "componentSet": {
+      "nav": "nav/BasicNav",
+      "header": "header/BannerHeader",
+      "article": "article/BasicArticle",
+      "footer": "footer/BasicFooter"
+    },
+    "fontFamily": "\"Avenir Next\", Helvetica, sans-serif",
+    "heading": {
+      "fontWeight": 500,
+      "textTransform": "uppercase",
+      "letterSpacing": "0.2em"
+    },
+    "alternativeText": {
+      "textTransform": "uppercase",
+      "fontWeight": 400,
+      "letterSpacing": "0.2em",
+      "opacity": 0.75
+    },
+    "colors": {
+      "text": "#333",
+      "background": "#fff",
+      "primary": "#666",
+      "secondary": "#888",
+      "highlight": "#1f80ff",
+      "muted": "#f6f6f6",
+      "border": "#eee"
+    },
+    "layout": {
+      "centered": true,
+      "maxWidth": 1024,
+      "bannerHeight": "80vh"
+    }
+  },
+  "content": [
+    {
+      "component": "nav",
+      "links": [
+        {
+          "href": "https://github.com/tim-hutchinson/passport-predix-jwt",
+          "text": "GitHub"
+        },
+        {
+          "href": "https://npmjs.com/package/passport-predix-jwt",
+          "text": "npm"
+        }
+      ]
+    },
+    {
+      "component": "header",
+      "heading": "passport-predix-jwt",
+      "subhead": "Passport strategy for validating JWTs issued from Predix UAA instances",
+      "children": [
+        {
+          "component": "ui/TweetButton",
+          "text": "passport-predix-jwt: Passport strategy for validating JWTs issued from Predix UAA instances",
+          "url": null
+        },
+        {
+          "component": "ui/GithubButton",
+          "user": "tim-hutchinson",
+          "repo": "passport-predix-jwt"
+        }
+      ],
+      "text": "v1.1.0"
+    },
+    {
+      "component": "article",
+      "metadata": {
+        "source": "github.readme"
+      },
+      "html": "\n\n<p>This strategy validates a JWT passed as a bearer token in the Authorization header against a specified UAA instance \nand is targeted at protecting API endpoints served by Node.JS applications.\nThere is currently one strategy completed, RemoteValidationStrategy, with a LocalValidationStrategy on the roadmap.</p>\n<p>The RemoteValidationStrategy authenticates by checking the token against the app&apos;s cache or UAA&apos;s <code>check_token</code> endpoint.\nRemote validation adds additional requests against your auth server, but lets you validate opaque tokens and check if the token has been revoked.\nFor more information <a href=\"https://www.predix.io/docs/#ZpStyvy5\">see the Predix UAA docs</a>.</p>\n<h2>Installation</h2>\n<pre>npm install git+https://github.com/tim-hutchinson/passport-predix-jwt.git</pre><h2>Usage</h2>\n<h3>LocalValidationStrategy</h3>\n<h4>Configure strategy</h4>\n<p>The strategy expects 1 of 2 options to be set:</p>\n<ul>\n<li><code>uaaServiceName</code> - The name of the UAA service bound to your app in CloudFoundry. By using service discovery, you can easily change UAA instances without changing your application (recommended).</li>\n<li><code>issuer</code> - The IssuerId URI of your UAA service, as a string. Ex: <code>https://46995891-525c-41a3-b46b-a31e93db2eeb.predix-uaa.run.asv-pr.ice.predix.io/oauth/token</code></li>\n</ul>\n<pre><span class=\"hljs-keyword\">var</span> passport = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">&apos;passport&apos;</span>);\n<span class=\"hljs-keyword\">var</span> PredixLocalJWTStrategy = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">&apos;passport-predix-jwt&apos;</span>).LocalValidationStrategy;\n\npassport.use(<span class=\"hljs-keyword\">new</span> PredixLocalJWTStrategy({\n        <span class=\"hljs-attr\">uaaServiceName</span>: <span class=\"hljs-string\">&apos;uaa&apos;</span>\n    }, \n    <span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span> (<span class=\"hljs-params\">jwt_payload, done</span>) </span>{\n        <span class=\"hljs-comment\">// Get a user record and call it back</span>\n        <span class=\"hljs-keyword\">var</span> user = Users.findByToken(jwt_payload);\n        done(<span class=\"hljs-literal\">null</span>, user);\n    }\n));</pre><h3>RemoteValidationStrategy</h3>\n<h4>Configure strategy</h4>\n<p>The strategy expects the following options to be set. <code>uaaServiceName</code> or <code>issuer</code> must be set.</p>\n<ul>\n<li><code>uaaServiceName</code> - The name of the UAA service bound to your app in CloudFoundry. By using service discovery, you can easily change UAA instances without changing your application (recommended).</li>\n<li><code>issuer</code> - The IssuerId URI of your UAA service, as a string. Ex: <code>https://46995891-525c-41a3-b46b-a31e93db2eeb.predix-uaa.run.asv-pr.ice.predix.io/oauth/token</code></li>\n<li><code>clientId</code> - Required. Your Client ID with the UAA service. Needed to call <code>/check_token</code></li>\n<li><code>clientSecret</code> - Required. Your Client secret with the UAA service. Needed to call <code>/check_token</code></li>\n<li><code>opts</code> - Additional parameters for remote validation.<ul>\n<li><code>ttl</code> - The maximum amount of time, in seconds, to cache a validated token in memory for. If 0, does not cache. <code>Default: 0</code></li>\n<li><code>useCache</code> - Whether or not to look in the cache for a previously validated token. <code>Default: true</code>\n```js\nvar passport = require(&apos;passport&apos;);\nvar PredixRemoteJWTStrategy = require(&apos;passport-predix-jwt&apos;).RemoteValidationStrategy;</li>\n</ul>\n</li>\n</ul>\n<p>passport.use(new PredixRemoteJWTStrategy({\n        uaaServiceName: &apos;uaa&apos;,\n        clientId: &apos;myClient&apos;,\n        clientSecret: &apos;mySecret&apos;,\n        opts: { ttl: 2<em>60</em>60, \n                useCache: true \n            }\n    }, \n    function (jwt_payload, done) {\n        // Get a user record and call it back\n        var user = Users.findByToken(jwt_payload);\n        done(null, user);\n    }\n));</p>\n<pre>\n#### Authenticating Users\nUse `passport.authenticate()`, specifying the `predix-local-jwt` or `predix-remote-jwt` strategy, to\nauthenticate requests.\n\nFor example, <span class=\"hljs-keyword\">as</span> route middleware <span class=\"hljs-keyword\">in</span> an [Express](http:<span class=\"hljs-comment\">//expressjs.com/)</span>\napplication:\n\n```js\napp.get(<span class=\"hljs-string\">&apos;/auth/example&apos;</span>, passport.authenticate(<span class=\"hljs-string\">&apos;predix-remote-jwt&apos;</span>));</pre>"
+    },
+    {
+      "component": "footer",
+      "links": [
+        {
+          "href": "https://github.com/tim-hutchinson/passport-predix-jwt",
+          "text": "GitHub"
+        },
+        {
+          "href": "https://github.com/tim-hutchinson",
+          "text": "tim-hutchinson"
+        }
+      ]
+    }
+  ]
+}
